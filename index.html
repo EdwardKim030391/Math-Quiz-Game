@@ -1,66 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Math Quiz Game</title>
-    <link rel="stylesheet" href="./css/style.css">
-    <script defer src="./js/app.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Math Quiz Game</title>
+  <link rel="stylesheet" href="./css/style.css" />
+  <script defer src="./js/app.js"></script>
 </head>
 <body>
-    <div id="difficulty" class="flex justify-center flex-wrap gap-4 my-6">
-        <button class="diff-btn bg-green-400 hover:bg-green-500 text-white font-bold py-2 px-4 rounded" data-difficulty="easy">Easy</button>
-        <button class="diff-btn bg-yellow-400 hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded" data-difficulty="medium">Medium</button>
-        <button class="diff-btn bg-orange-400 hover:bg-orange-500 text-white font-bold py-2 px-4 rounded" data-difficulty="hard">Hard</button>
-        <button class="diff-btn bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded" data-difficulty="extreme">Extreme</button>
+  <div id="difficulty">
+    <button class="diff-btn" data-difficulty="easy">Easy</button>
+    <button class="diff-btn" data-difficulty="medium">Medium</button>
+    <button class="diff-btn" data-difficulty="hard">Hard</button>
+    <button class="diff-btn" data-difficulty="extreme">Extreme</button>
+  </div>
+
+  <div id="game" class="game-card" style="display: none; position: relative">
+    <p id="message">Welcome to Math Quiz World</p>
+    <p id="timer">Time:</p>
+    <p id="score">Score:</p>
+    <p id="high-score">High Score:</p>
+    <p id="question">Question:</p>
+    <input type="text" id="answer" placeholder="Your Answer">
+    <button id="submit">Submit</button>
+    <button id="back-button">Back to Main</button>
+
+    <div id="game-area">
+      <img id="character-img" src="./image/crayon.JPG" alt="Character" />
+      <img id="hammer-img" src="./image/hit.jpg" alt="Hammer" />
+      <div id="cookie-container">
+        <img class="cookie" src="./image/cookie.JPG" alt="cookie" />
+        <img class="cookie" src="./image/cookie.JPG" alt="cookie" />
+        <img class="cookie" src="./image/cookie.JPG" alt="cookie" />
+        <img class="cookie" src="./image/cookie.JPG" alt="cookie" />
+        <img class="cookie" src="./image/cookie.JPG" alt="cookie" />
+        <img class="cookie" src="./image/cookie.JPG" alt="cookie" />
+        <img class="cookie" src="./image/cookie.JPG" alt="cookie" />
+        <img class="cookie" src="./image/cookie.JPG" alt="cookie" />
+        <img class="cookie" src="./image/cookie.JPG" alt="cookie" />
+        <img class="cookie" src="./image/cookie.JPG" alt="cookie" />
+      </div>
     </div>
+  </div>
 
-    <div id="game" class="game-card hidden relative max-w-md mx-auto mt-6 p-6 bg-white dark:bg-gray-800 rounded-2xl shadow-lg">
-        <p id="message" class="text-xl font-bold mb-4">Welcome to Math Quiz World</p>
-        <p id="timer" class="text-lg mb-2">Time:</p>
-        <p id="score" class="text-lg mb-2">Score:</p>
-        <p id="high-score" class="text-lg mb-2">High Score:</p>
-        <p id="question" class="text-lg font-semibold mb-2">Question:</p>
-        <input type="text" id="answer" class="w-full p-2 border border-gray-300 rounded mb-3" placeholder="Your Answer">
-        <button id="submit" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mb-2">Submit</button>
-        <button id="back-button" class="bg-gray-300 hover:bg-gray-400 text-black font-bold py-2 px-4 rounded">Back to Main</button>
+  <button id="light/dark">Light/Dark Mode</button>
 
-        <div id="game-area" class="mt-6 relative">
-            <img id="character-img" src="./image/crayon.png" alt="Character" />
-            <img id="hammer-img" src="./image/hit.png" alt="Hammer" />
-            <div id="cookie-container" class="grid grid-cols-5 gap-2 justify-center mt-4">
-                <img class="cookie" src="./image/cookie.png" alt="cookie">
-                <img class="cookie" src="./image/cookie.png" alt="cookie">
-                <img class="cookie" src="./image/cookie.png" alt="cookie">
-                <img class="cookie" src="./image/cookie.png" alt="cookie">
-                <img class="cookie" src="./image/cookie.png" alt="cookie">
-                <img class="cookie" src="./image/cookie.png" alt="cookie">
-                <img class="cookie" src="./image/cookie.png" alt="cookie">
-                <img class="cookie" src="./image/cookie.png" alt="cookie">
-                <img class="cookie" src="./image/cookie.png" alt="cookie">
-                <img class="cookie" src="./image/cookie.png" alt="cookie">
-            </div>
-        </div>
-    </div>
+  <button id="restart" style="display: none">Play Again!</button>
 
-    <button id="light/dark" class="fixed top-4 left-4 bg-gray-200 dark:bg-gray-700 text-black dark:text-white px-3 py-1 rounded transition">🌞 / 🌙</button>
+  <audio id="background-music" src="./audio/funnysong.mp3" loop></audio>
+  <div id="music-btn">
+    <button id="play-music-btn">🎶</button>
+  </div>
 
-    <button id="restart" class="hidden absolute bottom-4 left-1/2 transform -translate-x-1/2 font-bold py-2 px-6 bg-purple-500 text-white rounded">Play Again!</button>
-
-    <audio id="background-music" src="./audio/funnysong.mp3" loop></audio>
-    <div id="music-btn" class="fixed top-4 right-4">
-        <button id="play-music-btn" class="text-3xl">🎶</button>
-    </div>
-
-    <div id="how-to-play" class="max-w-xl mx-auto mt-8 p-4 bg-yellow-100 rounded shadow">
-        <p>
-            <strong>How to Play</strong>
-            <li><strong>Start the Game:</strong> Select a difficulty level: Easy, Medium, Hard, or Extreme.</li>
-            <li><strong>Solve the Problems:</strong> All questions are math related. Solve the math problems that appear on the screen.</li>
-            <li><strong>Time Limit:</strong> There is a time limit for each mode.</li>
-            <li><strong>Check Your Score:</strong> You earn points for each correct answer, and you need to answer all 10 questions correctly.</li>
-            <li><strong>Game Over:</strong> If you answer all the questions within the time limit, you win. If not, a "Game Over" message will appear.</li>
-        </p>
-    </div>
+  <div id="how-to-play">
+    <p>
+      <strong>How to Play</strong>
+      <li><strong>Start the Game:</strong> Select a difficulty level: Easy, Medium, Hard, or Extreme.</li>
+      <li><strong>Solve the Problems:</strong> All questions are math related. Solve the math problems that appear on the screen.</li>
+      <li><strong>Time Limit:</strong> There is a time limit for each modes.</li>
+      <li><strong>Check Your Score:</strong> You earn points for each correct answer, and you need to answer all 10 questions correctly.</li>
+      <li><strong>Game Over:</strong> If you answer all the questions within the time limit, you win. If not, a "Game Over" message will appear.</li>
+    </p>
+  </div>
 </body>
 </html>
