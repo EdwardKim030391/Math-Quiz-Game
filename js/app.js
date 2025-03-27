@@ -149,10 +149,10 @@ function moveCharacterToCookie(cookie) {
 
     setTimeout(() => {
         cookie.classList.add('eaten');
-        characterImg.src = './image/happycrayon.JPG';
+        characterImg.src = './image/happycrayon.png';
 
         setTimeout(() => {
-            characterImg.src = './image/crayon.JPG';
+            characterImg.src = './image/crayon.png';
 
             updateHammerPosition();
         }, 1000);
@@ -167,11 +167,11 @@ function showHammerEffect() {
 
     hammerImg.style.bottom = '450px'; // Set hammer's bottom position
     hammerImg.style.display = 'block';
-    characterImg.src = './image/sadcrayon.JPG'; // Change character to sad image
+    characterImg.src = './image/sadcrayon.png'; // Change character to sad image
 
     setTimeout(() => {
         hammerImg.style.display = 'none';
-        characterImg.src = './image/crayon.JPG'; // Change character back to original image
+        characterImg.src = './image/crayon.png'; // Change character back to original image
     }, 1000);
 }
 // Check the answer function
