@@ -141,22 +141,23 @@ function updateHammerPosition() {
     const characterLeft = characterImg.getBoundingClientRect().left; // Get character's left position
     hammerImg.style.left = `${characterLeft + 100}px`; // Set hammer's position
 }
-// Move character to a cookie function
 function moveCharacterToCookie(cookie) {
-    const cookiePosition = cookie.getBoundingClientRect().left; // Get cookie's left position
+    const containerRect = document.getElementById('cookie-container').getBoundingClientRect();
+    const cookieRect = cookie.getBoundingClientRect();
 
-    characterImg.style.left = `${cookiePosition - 50}px`; // Move character to the cookie's position
+    const offset = cookieRect.left - containerRect.left;
+
+    characterImg.style.left = `${offset}px`;
 
     setTimeout(() => {
-        cookie.classList.add('eaten');
-        characterImg.src = './image/happycrayon.png';
+        cookie.classList.add('pop');
+        characterImg.src = './image/happycrayon.JPG';
 
         setTimeout(() => {
-            characterImg.src = './image/crayon.png';
-
-            updateHammerPosition();
-        }, 1000);
-    }, 500);
+            characterImg.src = './image/crayon.JPG';
+            cookie.classList.add('eaten');
+        }, 600);
+    }, 300);
 
     updateHammerPosition();
 }
