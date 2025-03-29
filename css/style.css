@@ -101,14 +101,24 @@ body.dark .game-card {
     background-color: #da190b;
 }
 
+#character-line {
+    height: 80px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-end;
+    width: 100%;
+    max-width: 320px;
+    position: relative;
+    margin: 0 auto;
+}
+
 #character-img {
-    position: absolute;
-    bottom: 0;
-    left: 30%;
     width: 60px;
     height: 60px;
-    z-index: 10;
-    transition: left 0.5s ease, top 0.5s ease;
+    transition: left 0.5s ease;
+    position: absolute;
+    bottom: 0;
+    left: 0;
 }
 
 #hammer-img {
@@ -231,5 +241,13 @@ body.dark #how-to-play {
   #how-to-play {
     font-size: 14px;
     padding: 15px;
+  }
+
+  #character-line {
+    max-width: 280px;
+  }
+
+  #cookie-container {
+    max-width: 280px;
   }
 }
