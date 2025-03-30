@@ -176,16 +176,18 @@ function checkAnswer() {
             currentCookieIndex++;
         }
 
+        answerInput.value = '';
+
         if (score === totalCookies) {
             endGame(true);
-            return;
+        } else {
+            generateQuestion();
         }
     } else {
         showHammerEffect();
+        answerInput.value = '';
+        generateQuestion();
     }
-
-    answerInput.value = '';
-    generateQuestion();
 }
 
 function endGame(win) {
