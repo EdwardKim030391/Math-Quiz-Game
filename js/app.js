@@ -25,7 +25,6 @@ let currentCookieIndex = 0;
 let currentAnswer = null;
 const totalCookies = cookies.length;
 
-//Game initialization function
 function initGame() {
     document.getElementById('how-to-play').style.display = 'none';
     setTimeBasedOnDifficulty();
@@ -41,35 +40,27 @@ function initGame() {
     positionCharacter();
 }
 
-//Character position setting function
 function positionCharacter() {
-    characterImg.style.left = '25%'; //set char left position
-    characterImg.style.top = '0'; //set char top position
-    hammerImg.style.display = 'none'; //hide hammer
+    characterImg.style.left = '0px';
+    hammerImg.style.display = 'none';
 }
 
-//Start timer function
 function startTimer() {
     timer = setInterval(() => {
-        time--; //decrease time by 1 every second
-        updateTimer(); //update timer display
-        if (time <= 0) { //if time runs out
-            clearInterval(timer); //stop the timer
-            endGame(false); //end game with lose
+        time--;
+        updateTimer();
+        if (time <= 0) {
+            clearInterval(timer);
+            endGame(false);
         }
     }, 1000);
 }
 
 function setTimeBasedOnDifficulty() {
-    if (difficulty === 'easy') {
-        time = 90;
-    } else if (difficulty === 'medium') {
-        time = 120;
-    } else if (difficulty === 'hard') {
-        time = 150;
-    } else if (difficulty === 'extreme') {
-        time = 300;
-    }
+    if (difficulty === 'easy') time = 90;
+    else if (difficulty === 'medium') time = 120;
+    else if (difficulty === 'hard') time = 150;
+    else if (difficulty === 'extreme') time = 300;
 }
 
 function updateTimer() {
@@ -85,7 +76,6 @@ function updateScore() {
     document.getElementById('high-score').textContent = `High Score: ${highScore}`;
 }
 
-//Get number range based on difficulty function
 function getNumberRange() {
     if (difficulty === 'easy') return [1, 10];
     if (difficulty === 'medium') return [10, 50];
@@ -93,7 +83,6 @@ function getNumberRange() {
     if (difficulty === 'extreme') return [1, 100];
     return [1, 10];
 }
-
 
 function generateQuestion() {
     const [min, max] = getNumberRange();
@@ -106,7 +95,6 @@ function generateQuestion() {
         const num3 = Math.floor(Math.random() * (max - min + 1)) + min;
         xValue = Math.floor(Math.random() * (max - min + 1)) + min;
 
-        // Example: (2x + 4) - 6 = y
         const y = num1 * xValue + num2 - num3;
         question = `Solve for x: (${num1}x + ${num2}) - ${num3} = ${y}`;
         currentAnswer = parseFloat(((y + num3 - num2) / num1).toFixed(2));
@@ -116,13 +104,9 @@ function generateQuestion() {
         const num2 = Math.floor(Math.random() * (max - min + 1)) + min;
 
         let operator;
-        if (difficulty === 'easy') {
-            operator = ['+', '-'][Math.floor(Math.random() * 2)];
-        } else if (difficulty === 'medium') {
-            operator = ['+', '-', '*'][Math.floor(Math.random() * 3)];
-        } else {
-            operator = ['+', '-', '*', '/'][Math.floor(Math.random() * 4)];
-        }
+        if (difficulty === 'easy') operator = ['+', '-'][Math.floor(Math.random() * 2)];
+        else if (difficulty === 'medium') operator = ['+', '-', '*'][Math.floor(Math.random() * 3)];
+        else operator = ['+', '-', '*', '/'][Math.floor(Math.random() * 4)];
 
         if (operator === '/') {
             question = `${num1 * num2} / ${num2}`;
@@ -132,19 +116,19 @@ function generateQuestion() {
             currentAnswer = eval(question);
         }
     }
-
     questionDisplay.textContent = `Question: ${question}`;
 }
-// Update hammer position function
-function updateHammerPosition() {
 
-    const characterLeft = characterImg.getBoundingClientRect().left; // Get character's left position
-    hammerImg.style.left = `${characterLeft + 100}px`; // Set hammer's position
+function updateHammerPosition() {
+    const charRect = characterImg.getBoundingClientRect();
+    const containerRect = document.getElementById('game-area').getBoundingClientRect();
+    const offsetLeft = charRect.left - containerRect.left;
+    hammerImg.style.left = `${offsetLeft + 20}px`;
 }
+
 function moveCharacterToCookie(cookie) {
     const containerRect = document.getElementById('cookie-container').getBoundingClientRect();
     const cookieRect = cookie.getBoundingClientRect();
-
     const offset = cookieRect.left - containerRect.left;
 
     characterImg.style.left = `${offset}px`;
@@ -163,38 +147,44 @@ function moveCharacterToCookie(cookie) {
 }
 
 function showHammerEffect() {
-
     updateHammerPosition();
-
-    hammerImg.style.bottom = '450px'; // Set hammer's bottom position
+    hammerImg.style.bottom = '450px';
     hammerImg.style.display = 'block';
-    characterImg.src = './image/sadcrayon.png'; // Change character to sad image
+    hammerImg.classList.add('shake');
+    characterImg.src = './image/sadcrayon.JPG';
 
     setTimeout(() => {
         hammerImg.style.display = 'none';
-        characterImg.src = './image/crayon.png'; // Change character back to original image
+        hammerImg.classList.remove('shake');
+        characterImg.src = './image/crayon.JPG';
     }, 1000);
 }
-// Check the answer function
+
 function checkAnswer() {
-    const userAnswer = parseFloat(answerInput.value.trim()); // Get the user's answer
+    const userAnswer = parseFloat(answerInput.value.trim());
+    if (isNaN(userAnswer)) {
+        answerInput.value = '';
+        return;
+    }
+
     if (userAnswer === currentAnswer) {
         score++;
         updateScore();
 
         if (currentCookieIndex < cookies.length) {
-            moveCharacterToCookie(cookies[currentCookieIndex]); // Move character to the next cookie
+            moveCharacterToCookie(cookies[currentCookieIndex]);
             currentCookieIndex++;
         }
 
         if (score === totalCookies) {
-            endGame(true); // End game with win if all cookies are eaten
+            endGame(true);
+            return;
         }
     } else {
-        showHammerEffect(); // Show hammer effect if the answer is incorrect
+        showHammerEffect();
     }
 
-    answerInput.value = ''; // Clear input field
+    answerInput.value = '';
     generateQuestion();
 }
 
@@ -217,26 +207,19 @@ document.querySelectorAll('.diff-btn').forEach(btn => {
     });
 });
 
-// Enter key press event to submit answer
 submitBtn.addEventListener('click', checkAnswer);
 answerInput.addEventListener('keyup', (event) => {
-    if (event.key === 'Enter') {
-        checkAnswer();
-    }
+    if (event.key === 'Enter') checkAnswer();
 });
 
 restartBtn.addEventListener('click', () => {
-
     clearInterval(timer);
-
     difficultyDiv.style.display = 'block';
     gameDiv.style.display = 'none';
     restartBtn.style.display = 'none';
-
     messageDisplay.textContent = 'Welcome to Math Quiz World';
     messageDisplay.classList.remove('win');
     answerInput.value = '';
-
     score = 0;
     time = 90;
     updateScore();
@@ -272,17 +255,13 @@ playMusicBtn.addEventListener('click', () => {
 });
 
 backButton.addEventListener('click', () => {
-
     clearInterval(timer);
-
     difficultyDiv.style.display = 'block';
     gameDiv.style.display = 'none';
     restartBtn.style.display = 'none';
-
     messageDisplay.textContent = 'Welcome to Math Quiz World';
     messageDisplay.classList.remove('win');
     answerInput.value = '';
-
     score = 0;
     time = 90;
     updateScore();
