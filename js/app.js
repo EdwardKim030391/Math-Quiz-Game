@@ -38,6 +38,8 @@ function initGame() {
     startTimer();
     generateQuestion();
     positionCharacter();
+    answerInput.disabled = false;
+    submitBtn.disabled = false;
 }
 
 function positionCharacter() {
@@ -135,10 +137,10 @@ function moveCharacterToCookie(cookie) {
 
     setTimeout(() => {
         cookie.classList.add('pop');
-        characterImg.src = './image/happycrayon.JPG';
+        characterImg.src = './image/happycrayon.png';
 
         setTimeout(() => {
-            characterImg.src = './image/crayon.JPG';
+            characterImg.src = './image/crayon.png';
             cookie.classList.add('eaten');
         }, 600);
     }, 300);
@@ -151,12 +153,12 @@ function showHammerEffect() {
     hammerImg.style.bottom = '450px';
     hammerImg.style.display = 'block';
     hammerImg.classList.add('shake');
-    characterImg.src = './image/sadcrayon.JPG';
+    characterImg.src = './image/sadcrayon.png';
 
     setTimeout(() => {
         hammerImg.style.display = 'none';
         hammerImg.classList.remove('shake');
-        characterImg.src = './image/crayon.JPG';
+        characterImg.src = './image/crayon.png';
     }, 1000);
 }
 
@@ -164,6 +166,8 @@ function checkAnswer() {
     const userAnswer = parseFloat(answerInput.value.trim());
     if (isNaN(userAnswer)) {
         answerInput.value = '';
+        showHammerEffect();
+        generateQuestion();
         return;
     }
 
@@ -200,6 +204,7 @@ function endGame(win) {
     }
     restartBtn.style.display = 'block';
     submitBtn.disabled = true;
+    answerInput.disabled = true;
 }
 
 document.querySelectorAll('.diff-btn').forEach(btn => {
@@ -228,6 +233,8 @@ restartBtn.addEventListener('click', () => {
     updateTimer();
     positionCharacter();
     cookies.forEach(cookie => cookie.classList.remove('eaten'));
+    answerInput.disabled = false;
+    submitBtn.disabled = false;
 });
 
 window.addEventListener('DOMContentLoaded', () => {
@@ -270,4 +277,6 @@ backButton.addEventListener('click', () => {
     updateTimer();
     positionCharacter();
     cookies.forEach(cookie => cookie.classList.remove('eaten'));
+    answerInput.disabled = false;
+    submitBtn.disabled = false;
 });
